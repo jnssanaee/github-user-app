@@ -1,6 +1,10 @@
 const input = document.querySelector("#input");
 const areaJson = document.querySelector("#areaJson");
-const tableTemplate = (login, location, bio, url) => {
+const tableTemplate = (data) => {
+    const login = data.login
+    const location = data.location
+    const bio = data.bio
+    const url = data.url
     return `
         <table class="table">
             <thead>
@@ -44,7 +48,10 @@ const handleApiRequest = function(e){
         .then(response => response.json())
         .then(data => renderTable(data))
         //.then(data => console.log(data))
-        .catch(error => emptyData(error))
+        //.catch(error => emptyData(error))
+        .catch(function(error){
+            alert(1);
+        })
 }
 
 input.addEventListener("keyup", handleApiRequest);

@@ -1,11 +1,6 @@
 const input = document.querySelector("#input");
 const areaJson = document.querySelector("#areaJson");
-const tableTemplate = (res) => {
-    const login = res.login
-    const location = res.location
-    const bio = res.bio
-    const url = res.url
-    
+const tableTemplate = ({login, location, bio, url}) => {
     return `
         <table class="table">
             <thead>

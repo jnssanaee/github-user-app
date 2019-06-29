@@ -1,10 +1,11 @@
 const input = document.querySelector("#input");
 const areaJson = document.querySelector("#areaJson");
-const tableTemplate = (data) => {
-    const login = data.login
-    const location = data.location
-    const bio = data.bio
-    const url = data.url
+const tableTemplate = (res) => {
+    const login = res.login
+    const location = res.location
+    const bio = res.bio
+    const url = res.url
+    
     return `
         <table class="table">
             <thead>
@@ -27,14 +28,11 @@ const tableTemplate = (data) => {
     `
 }
 
-//const renderTable = (data) => areaJson.innerHTML = tableTemplate(data)
-const renderTable = function(data){
-    areaJson.innerHTML = tableTemplate(data)
+const renderTable = function(res){
+    areaJson.innerHTML = tableTemplate(res)
 }
 
-// const emptyData = (error) => areaJson.innerHTML = '<div class="arerNot">응답되는 주소가 없습니다.</div>';
-const emptyData = function(error){
-    alert(1);
+const emptyData = function(){
     areaJson.innerHTML = '<div class="arerNot">응답되는 주소가 없습니다.</div>';
 }
 
@@ -45,13 +43,17 @@ const handleApiRequest = function(e){
 
     const userName = e.target.value;
     fetch('https://api.github.com/users/' + userName)
-        .then(response => response.json())
-        .then(data => renderTable(data))
-        //.then(data => console.log(data))
-        //.catch(error => emptyData(error))
-        .catch(function(error){
-            alert(1);
+        .then((res) => {
+            if (res.ok) {
+                res.json().then((res) => {
+                    console.log(typeof res)
+                    renderTable(res)
+                });
+            } else {
+              emptyData();
+            }
         })
+        .catch(err => console.error(err));
 }
 
 input.addEventListener("keyup", handleApiRequest);
